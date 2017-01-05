@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [ICT Automation Suite]">
+  <listeners>
+    <listener class-name="com.innominds.itaf.listeners.TestSuiteListener"/>
+    <listener class-name="com.innominds.itaf.listeners.ExtentReporterListener"/>
+  </listeners>
+  <groups>
+    <run>
+      <include name="Sanity"/>
+      <include name="Regression"/>
+    </run>
+  </groups>
+  <test name="Web Automation Tests">
+    <classes>
+      <class name="com.web.tests.WebTESTCASES.MySpaceTests"/>
+    </classes>
+  </test> <!-- Web Automation Tests -->
+  <test name="Web Automation Tests(failed)">
+    <groups>
+      <run>
+        <include name="Sanity"/>
+        <include name="Regression"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="com.web.tests.WebTESTCASES.MySpaceTests">
+        <methods>
+          <include name="Login_Valid" invocation-numbers="0"/>
+          <include name="init"/>
+          <include name="testPreRequisites"/>
+          <include name="destroy"/>
+          <include name="tearDown"/>
+          <include name="Login_Invalid" invocation-numbers="0"/>
+        </methods>
+      </class> <!-- com.web.tests.WebTESTCASES.MySpaceTests -->
+    </classes>
+  </test> <!-- Web Automation Tests(failed) -->
+</suite> <!-- Failed suite [ICT Automation Suite] -->

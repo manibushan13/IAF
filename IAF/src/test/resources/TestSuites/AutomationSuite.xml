@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="ICT Automation Suite" thread-count="5">
+	<groups>
+		<run>
+			<include name="Sanity" />
+			<include name="Regression" />
+		</run>
+	</groups>
+	<listeners>
+		<listener class-name="com.innominds.itaf.listeners.TestSuiteListener" />
+		<listener class-name="com.innominds.itaf.listeners.ExtentReporterListener" />
+		<!-- <listener class-name="com.Listeners.TestNGListener" /> -->
+	</listeners>
+
+<!-- Test methods start -->
+
+	<test name="Web Automation Tests" enabled="true">
+		<classes>
+			<class name="com.web.tests.WebTESTCASES.MySpaceTests" />
+		</classes>
+	</test>
+	
+	<test name="Mobile Automation Tests" enabled="false">
+		<classes>
+			<class name="com.android.tests.MobTESTCASES.AndroidSanityTest" />
+		</classes>
+	</test>
+
+</suite>
