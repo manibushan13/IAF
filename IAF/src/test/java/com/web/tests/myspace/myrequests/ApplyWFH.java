@@ -65,7 +65,7 @@ public class ApplyWFH extends PageActionUtils{
 			
 		} catch (Exception e) {
 			
-			Assert.assertFalse(false, "Test case failed due to exception "+e.getMessage());
+			Assert.assertTrue(false, "Test case failed due to exception "+e.getMessage());
 		}
 		
 

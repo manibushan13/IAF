@@ -1,5 +1,6 @@
 package com.innominds.itaf.frameworkengine;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -15,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.testng.Assert;
 
-import com.innominds.itaf.frameworkengine.ConfigTestFixtures;
+import com.innominds.itaf.utils.PropertyFileUtils;
 
 /**
  * The Class VerifyEmail.
@@ -61,9 +62,13 @@ public class VerifyEmail {
 				String[] emailIdSplit = emailId.split("@");
 				String emailDomain = emailIdSplit[1];
 				// System.out.println("Email Domain is === " + emailDomain);
-				if (emailDomain.equalsIgnoreCase("gmail.com")) {
-					store.connect(ConfigTestFixtures.getGmailEmailHost(), emailId, password);
-				} else {
+				if (emailDomain.equalsIgnoreCase("gmail")) {
+					store.connect(PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "gmail.email.host"), emailId, password);
+				} else if(emailDomain.equalsIgnoreCase("outlook"))
+				{
+					store.connect(PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "outlook.email.host"), emailId, password);
+				}else
+				{
 					System.out.println("Email id is NOT valid");
 				}
 				Folder folder = store.getFolder("Inbox");
@@ -154,15 +159,13 @@ public class VerifyEmail {
 				/*
 				 * Based on the email id mentioned under .property files this
 				 * code works. If we use email id with
-				 * trimble.com/innominds,com/gmail.com based on the domains the
+				 * innominds,com/gmail.com based on the domains the
 				 * email verification works in the respected mail accounts.
 				 */
-				if (emailDomain.equalsIgnoreCase("innominds.com")) {
-					store.connect(ConfigTestFixtures.getInnomindsEmailHost(),
-							emailId, password);
-				} else if (emailDomain.equalsIgnoreCase("gmail.com")) {
-					store.connect(ConfigTestFixtures.getGmailEmailHost(),
-							emailId, password);
+				if (emailDomain.equalsIgnoreCase("outlook")) {
+					store.connect(PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "outlook.email.host"),	emailId, password);
+				} else if (emailDomain.equalsIgnoreCase("gmail")) {
+					store.connect(PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "gmail.email.host"), emailId, password);
 				} else {
 					System.out.println("Email id is NOT valid");
 				}
@@ -229,9 +232,10 @@ public class VerifyEmail {
 	 * @param password
 	 *            the password
 	 * @return the confirmation email
+	 * @throws FileNotFoundException 
 	 */
 	public static void getConfirmationEmail(String FirstName, String LastName,
-			String emailId, String password) {
+			String emailId, String password) throws FileNotFoundException {
 		int time = 0;
 		System.out.println();
 		System.out
@@ -259,13 +263,12 @@ public class VerifyEmail {
 				/*
 				 * Based on the email id mentioned under .property files this
 				 * code works. If we use email id with
-				 * trimble.com/innominds,com/gmail.com based on the domains the
+				 * innominds,com/gmail.com based on the domains the
 				 * email verification works in the respected mail accounts.
 				 */
-				if (emailDomain.equalsIgnoreCase("innominds.com")) {
-					store.connect(ConfigTestFixtures.getInnomindsEmailHost(),
-							995, emailId, password);
-				} else if (emailDomain.equalsIgnoreCase("gmail.com")) {
+				if (emailDomain.equalsIgnoreCase("outlook")) {
+					store.connect(PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "outlook.email.host"),995, emailId, password);
+				} else if (emailDomain.equalsIgnoreCase("gmail")) {
 					store.connect("imap.gmail.com", emailId, password);
 				} else {
 					System.out.println("Email id is NOT valid");
@@ -350,9 +353,10 @@ public class VerifyEmail {
 	 * @param password
 	 *            the password
 	 * @return the email change confirmation email
+	 * @throws FileNotFoundException 
 	 */
 	public static void getEmailChangeConfirmationEmail(String FirstName,
-			String LastName, String newemailid, String emailId, String password) {
+			String LastName, String newemailid, String emailId, String password) throws FileNotFoundException {
 		int time = 0;
 		String old_email_emailchangecontent = "Your ON!Track email was changed to "
 				+ newemailid + ".";
@@ -382,13 +386,12 @@ public class VerifyEmail {
 				/*
 				 * Based on the email id mentioned under .property files this
 				 * code works. If we use email id with
-				 * trimble.com/innominds,com/gmail.com based on the domains the
+				 * innominds,com/gmail.com based on the domains the
 				 * email verification works in the respected mail accounts.
 				 */
-				if (emailDomain.equalsIgnoreCase("innominds.com")) {
-					store.connect(ConfigTestFixtures.getInnomindsEmailHost(),
-							995, emailId, password);
-				} else if (emailDomain.equalsIgnoreCase("gmail.com")) {
+				if (emailDomain.equalsIgnoreCase("outlook")) {
+					store.connect(PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "outlook.email.host"),	995, emailId, password);
+				} else if (emailDomain.equalsIgnoreCase("gmail")) {
 					store.connect("imap.gmail.com", emailId, password);
 				} else {
 					System.out.println("Email id is NOT valid");
@@ -456,9 +459,10 @@ public class VerifyEmail {
 	 * @param password
 	 *            the password
 	 * @return the confirmation email change password
+	 * @throws FileNotFoundException 
 	 */
 	public static void getConfirmationEmailChangePassword(String FirstName,
-			String LastName, String emailId, String password) {
+			String LastName, String emailId, String password) throws FileNotFoundException {
 		int time = 0;
 		try {
 			OUTERLOOP: for (int k = 1; k <= 10; k++) {
@@ -480,13 +484,12 @@ public class VerifyEmail {
 				/*
 				 * Based on the email id mentioned under .property files this
 				 * code works. If we use email id with
-				 * trimble.com/innominds,com/gmail.com based on the domains the
+				 * innominds,com/gmail.com based on the domains the
 				 * email verification works in the respected mail accounts.
 				 */
-				if (emailDomain.equalsIgnoreCase("innominds.com")) {
-					store.connect(ConfigTestFixtures.getInnomindsEmailHost(),
-							995, emailId, password);
-				} else if (emailDomain.equalsIgnoreCase("gmail.com")) {
+				if (emailDomain.equalsIgnoreCase("outlook")) {
+					store.connect(PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "outlook.email.host"), 995, emailId, password);
+				} else if (emailDomain.equalsIgnoreCase("gmail")) {
 					store.connect("imap.gmail.com", emailId, password);
 				} else {
 					System.out.println("Email id is NOT valid");

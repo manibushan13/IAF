@@ -1,6 +1,7 @@
 package com.innominds.itaf.listeners;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Calendar;
@@ -24,7 +25,7 @@ import org.testng.TestListenerAdapter;
 import org.testng.xml.XmlSuite;
 
 import com.innominds.itaf.driverinit.DriverManager;
-import com.innominds.itaf.frameworkengine.ConfigTestFixtures;
+import com.innominds.itaf.frameworkengine.Constants;
 import com.innominds.itaf.frameworkengine.SendEmail;
 import com.innominds.itaf.utils.CreateIssueInJira;
 import com.innominds.itaf.utils.PropertyFileUtils;
@@ -50,6 +51,8 @@ public class ExtentReporterListener extends TestListenerAdapter  implements ITes
 
 	/** The driver manager. */
 	public DriverManager driverManager;
+	public String screenshotPath;
+	
 
 	/*
 	 * (non-Javadoc)
@@ -59,64 +62,68 @@ public class ExtentReporterListener extends TestListenerAdapter  implements ITes
 	 */
 	public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory)
 	{
-		String filePath = System.getProperty("user.dir") + "\\Reports";
-		extent = new ExtentReports(filePath + File.separator + "Web_Automation_Reports.html", true);
 		
-		if (ConfigTestFixtures.getPlatformName() != null) {
-			extent.addSystemInfo("Mobile Device Platform", ConfigTestFixtures.getPlatformName());
-		}
-		if (ConfigTestFixtures.getDeviceManufacturer() != null) {
-			extent.addSystemInfo("Mobile Device Name", ConfigTestFixtures.getDeviceManufacturer());
-		}
-		if (ConfigTestFixtures.getDeviceModel() != null) {
-			extent.addSystemInfo("Mobile Device Model", ConfigTestFixtures.getDeviceModel());
-		}
-		try {
-			if (PropertyFileUtils.getPropValuesFromConfig("Environment") != null) {
-					extent.addSystemInfo("Web Environment", PropertyFileUtils.getPropValuesFromConfig("Environment"));
-					extent.addSystemInfo("IP", InetAddress.getLocalHost().toString());
-					extent.addSystemInfo("Host Name", InetAddress.getLocalHost().getHostName().toString());
-					
-			} else {
-				extent.addSystemInfo("Web Environment", "");
+		extent = new ExtentReports(Constants.REPORTS_FILE_PATH, true);
+		extent.loadConfig(new File(Constants.EXTENT_CONFIG_PATH));
+
+		try 
+		{
+		
+		
+			if (PropertyFileUtils.getPropValuesFromConfig(Constants.ANDROID_PROPERTIES_FILE, "platformName") != null) {
+				extent.addSystemInfo("Mobile Device Platform", PropertyFileUtils.getPropValuesFromConfig(Constants.ANDROID_PROPERTIES_FILE, "platformName"));
 			}
-		} catch (Exception e1) {
-			throw new RuntimeException("Env not found");
-		}
-
-		if (DriverManager.browsername != null) {
-			extent.addSystemInfo("Browser", DriverManager.browsername);
-		}
-		
-		extent.addSystemInfo("OS", System.getProperty("os.name"));
-		extent.addSystemInfo("User Name", System.getProperty("user.name"));
-		
-
-		for (ISuite suite : suites) {
-			Map<String, ISuiteResult> result = suite.getResults();
-
-			for (ISuiteResult r : result.values()) {
-				ITestContext context = r.getTestContext();
-
-				buildTestNodes(context.getPassedTests(), LogStatus.PASS);
-				buildTestNodes(context.getFailedTests(), LogStatus.FAIL);
-				buildTestNodes(context.getSkippedTests(), LogStatus.SKIP);
+			if (PropertyFileUtils.getPropValuesFromConfig(Constants.ANDROID_PROPERTIES_FILE, "deviceManufacturer") != null) {
+				extent.addSystemInfo("Mobile Device Name", PropertyFileUtils.getPropValuesFromConfig(Constants.ANDROID_PROPERTIES_FILE, "deviceManufacturer"));
 			}
-		}
-
-		try {
-			extent.flush();
-			extent.close();
-		} catch (Exception e) {
-
-		}
-
-		SendEmail sendEmail = new SendEmail();
-		try {
-			sendEmail.sendEmailReport();
-		} catch (InterruptedException e) {
-				e.printStackTrace();
-		}
+			if (PropertyFileUtils.getPropValuesFromConfig(Constants.ANDROID_PROPERTIES_FILE, "deviceModel") != null) {
+				extent.addSystemInfo("Mobile Device Model", PropertyFileUtils.getPropValuesFromConfig(Constants.ANDROID_PROPERTIES_FILE, "deviceModel"));
+			}
+				if (PropertyFileUtils.getPropValuesFromConfig(Constants.WEB_PROPERTIES_FILE, "Environment") != null) {
+						extent.addSystemInfo("Web Environment", PropertyFileUtils.getPropValuesFromConfig(Constants.WEB_PROPERTIES_FILE, "Environment"));
+						extent.addSystemInfo("IP", InetAddress.getLocalHost().toString());
+						extent.addSystemInfo("Host Name", InetAddress.getLocalHost().getHostName().toString());
+						
+				} else {
+					extent.addSystemInfo("Web Environment", "");
+				}
+			} catch (Exception e1) {
+				throw new RuntimeException("Env not found");
+			}
+	
+			if (DriverManager.browsername != null) {
+				extent.addSystemInfo("Browser", DriverManager.browsername);
+			}
+			
+			extent.addSystemInfo("OS", System.getProperty("os.name"));
+			extent.addSystemInfo("User Name", System.getProperty("user.name"));
+			
+	
+			for (ISuite suite : suites) {
+				Map<String, ISuiteResult> result = suite.getResults();
+	
+				for (ISuiteResult r : result.values()) {
+					ITestContext context = r.getTestContext();
+	
+					buildTestNodes(context.getPassedTests(), LogStatus.PASS);
+					buildTestNodes(context.getFailedTests(), LogStatus.FAIL);
+					buildTestNodes(context.getSkippedTests(), LogStatus.SKIP);
+				}
+			}
+	
+			try {
+				extent.flush();
+				extent.close();
+			} catch (Exception e) {
+	
+			}
+	
+			SendEmail sendEmail = new SendEmail();
+			try {
+				sendEmail.sendEmailReport(PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "mailType"));
+			} catch (InterruptedException | FileNotFoundException e) {
+					e.printStackTrace();
+			}
 	}
 
 	/**
@@ -132,8 +139,13 @@ public class ExtentReporterListener extends TestListenerAdapter  implements ITes
 
 		if (tests.size() > 0) {
 			for (ITestResult result : tests.getAllResults()) {
+				System.out.println();
 				test = extent.startTest(result.getMethod().getMethodName());
-
+				test.assignAuthor(System.getProperty("user.name"));
+				if(screenshotPath != null && !screenshotPath.isEmpty())
+				{
+					test.addScreenCapture(screenshotPath);
+				}
 				test.setStartedTime(getTime(result.getStartMillis()));
 				test.setEndedTime(getTime(result.getEndMillis()));
 
@@ -196,18 +208,19 @@ public class ExtentReporterListener extends TestListenerAdapter  implements ITes
 		try {
 			issueInJira.formJson(result.getMethod().getMethodName(), result.getThrowable().getMessage());
 //			Object currentClass = result.getInstance();
-//			driver = ((CustomReport) currentClass).getDriverInstance();
-
+//			driver = ((ExtentReporterListener) currentClass).getDriverInstance();
+			driver = getDriverInstance();
 			if (driver != null) {
 				File scrFile = ((TakesScreenshot) driver)
 						.getScreenshotAs(OutputType.FILE);
 
 				try {
-					String fileNameToCopy = "target/custom-test-reports/"
+					screenshotPath = "target/custom-test-reports/"
 							+ result.getTestClass().getName() + "_screenshot.png";
-					FileUtils.copyFile(scrFile, new File(fileNameToCopy));
+					FileUtils.copyFile(scrFile, new File(screenshotPath));
 					Reporter.log("[Console Log] Screenshot saved in "
 							+ result.getTestClass().getName() + "_screenshot.png");
+
 				} catch (IOException ex) {
 					// Log error message
 				}

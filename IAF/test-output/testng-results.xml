@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="2" total="3" passed="1">
+<testng-results skipped="0" failed="1" total="1" passed="0">
   <reporter-output>
     <line>
-      <![CDATA[Visit MySpace Login URL]]>
+      <![CDATA[..............Visit MySpace Login URL..............]]>
     </line>
     <line>
       <![CDATA[........Validate Login Header........]]>
@@ -20,61 +20,50 @@
       <![CDATA[........Validate Login with Bad UserName and Bad Password........]]>
     </line>
     <line>
-      <![CDATA[Visit MySpace Login URL]]>
+      <![CDATA[........Validate Login with Bad UserName and Good Password........]]>
     </line>
     <line>
       <![CDATA[........Validate Login with Good UserName and Good Password........]]>
     </line>
     <line>
-      <![CDATA[........Validate Home Page after Login........]]>
-    </line>
-    <line>
-      <![CDATA[Visit MySpace Login URL]]>
-    </line>
-    <line>
-      <![CDATA[........Validate Login with Good UserName and Good Password........]]>
-    </line>
-    <line>
-      <![CDATA[........Validate Home Page after Login........]]>
+      <![CDATA[[Console Log] Screenshot saved in com.web.tests.WebTESTCASES.MySpaceTests_screenshot.png]]>
     </line>
   </reporter-output>
-  <suite name="ICT Automation Suite" duration-ms="88952" started-at="2017-01-03T08:11:40Z" finished-at="2017-01-03T08:13:09Z">
+  <suite name="Automation Suite" duration-ms="46426" started-at="2017-01-16T09:39:54Z" finished-at="2017-01-16T09:40:40Z">
     <groups>
       <group name="Regression">
-        <method signature="MySpaceTests.Login_Invalid(com.web.tests.myspace.login.LoginDP)[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf]" name="Login_Invalid" class="com.web.tests.WebTESTCASES.MySpaceTests"/>
-        <method signature="MySpaceTests.Login_Valid(com.web.tests.myspace.login.LoginDP)[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf]" name="Login_Valid" class="com.web.tests.WebTESTCASES.MySpaceTests"/>
-        <method signature="MySpaceTests.Profile_AddSkills(com.web.tests.myspace.myprofile.SkillsDP)[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf]" name="Profile_AddSkills" class="com.web.tests.WebTESTCASES.MySpaceTests"/>
+        <method signature="MySpaceTests.Login_Invalid(com.web.tests.myspace.login.LoginDP)[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@3bd82cf5]" name="Login_Invalid" class="com.web.tests.WebTESTCASES.MySpaceTests"/>
       </group> <!-- Regression -->
     </groups>
-    <test name="Web Automation Tests" duration-ms="88952" started-at="2017-01-03T08:11:40Z" finished-at="2017-01-03T08:13:09Z">
+    <test name="Web Automation Tests" duration-ms="46426" started-at="2017-01-16T09:39:54Z" finished-at="2017-01-16T09:40:40Z">
       <class name="com.web.tests.WebTESTCASES.MySpaceTests">
-        <test-method status="PASS" signature="init()[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf]" name="init" is-config="true" duration-ms="10" started-at="2017-01-03T13:41:40Z" finished-at="2017-01-03T13:41:40Z">
+        <test-method status="PASS" signature="init()[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@3bd82cf5]" name="init" is-config="true" duration-ms="150" started-at="2017-01-16T15:09:54Z" finished-at="2017-01-16T15:09:54Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- init -->
-        <test-method status="PASS" signature="testPreRequisites()[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf]" name="testPreRequisites" is-config="true" duration-ms="2" started-at="2017-01-03T13:41:41Z" finished-at="2017-01-03T13:41:41Z">
+        <test-method status="PASS" signature="testPreRequisites()[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@3bd82cf5]" name="testPreRequisites" is-config="true" duration-ms="1" started-at="2017-01-16T15:10:02Z" finished-at="2017-01-16T15:10:02Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testPreRequisites -->
-        <test-method status="FAIL" signature="Login_Invalid(com.web.tests.myspace.login.LoginDP)[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf]" name="Login_Invalid" duration-ms="23725" started-at="2017-01-03T13:41:41Z" data-provider="LoginDP" finished-at="2017-01-03T13:42:04Z">
+        <test-method status="FAIL" signature="Login_Invalid(com.web.tests.myspace.login.LoginDP)[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@3bd82cf5]" name="Login_Invalid" duration-ms="34542" started-at="2017-01-16T15:10:02Z" data-provider="LoginDP" finished-at="2017-01-16T15:10:37Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[com.web.tests.myspace.login.LoginDP@46b61c56]]>
+                <![CDATA[com.web.tests.myspace.login.LoginDP@1339e7aa]]>
               </value>
             </param>
           </params>
           <exception class="java.lang.AssertionError">
             <message>
-              <![CDATA[Validation failed expected [true] but found [false]]]>
+              <![CDATA[Failed due to Invalid Login credentials expected [true] but found [false]]]>
             </message>
             <full-stacktrace>
-              <![CDATA[java.lang.AssertionError: Validation failed expected [true] but found [false]
+              <![CDATA[java.lang.AssertionError: Failed due to Invalid Login credentials expected [true] but found [false]
 	at org.testng.Assert.fail(Assert.java:94)
 	at org.testng.Assert.failNotEquals(Assert.java:513)
 	at org.testng.Assert.assertTrue(Assert.java:42)
-	at com.web.tests.myspace.login.Login.inValidCredentials(Login.java:61)
-	at com.web.tests.WebTESTCASES.MySpaceTests.Login_Invalid(MySpaceTests.java:105)
+	at com.web.tests.myspace.login.Login.inValidCredentials(Login.java:73)
+	at com.web.tests.WebTESTCASES.MySpaceTests.Login_Invalid(MySpaceTests.java:113)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
@@ -104,7 +93,7 @@
           </exception> <!-- java.lang.AssertionError -->
           <reporter-output>
             <line>
-              <![CDATA[Visit MySpace Login URL]]>
+              <![CDATA[..............Visit MySpace Login URL..............]]>
             </line>
             <line>
               <![CDATA[........Validate Login Header........]]>
@@ -121,132 +110,33 @@
             <line>
               <![CDATA[........Validate Login with Bad UserName and Bad Password........]]>
             </line>
+            <line>
+              <![CDATA[........Validate Login with Bad UserName and Good Password........]]>
+            </line>
+            <line>
+              <![CDATA[........Validate Login with Good UserName and Good Password........]]>
+            </line>
+            <line>
+              <![CDATA[[Console Log] Screenshot saved in com.web.tests.WebTESTCASES.MySpaceTests_screenshot.png]]>
+            </line>
           </reporter-output>
         </test-method> <!-- Login_Invalid -->
-        <test-method status="PASS" signature="destroy(org.testng.ITestResult)[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf]" name="destroy" is-config="true" duration-ms="8004" started-at="2017-01-03T13:42:06Z" finished-at="2017-01-03T13:42:14Z">
+        <test-method status="PASS" signature="destroy(org.testng.ITestResult)[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@3bd82cf5]" name="destroy" is-config="true" duration-ms="2757" started-at="2017-01-16T15:10:37Z" finished-at="2017-01-16T15:10:40Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[[TestResult name=Login_Invalid status=FAILURE method=MySpaceTests.Login_Invalid(com.web.tests.myspace.login.LoginDP)[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf] output=Visit MySpace Login URL]]]>
+                <![CDATA[[TestResult name=Login_Invalid status=FAILURE method=MySpaceTests.Login_Invalid(com.web.tests.myspace.login.LoginDP)[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@3bd82cf5] output=..............Visit MySpace Login URL..............]]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- destroy -->
-        <test-method status="PASS" signature="testPreRequisites()[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf]" name="testPreRequisites" is-config="true" duration-ms="5" started-at="2017-01-03T13:42:15Z" finished-at="2017-01-03T13:42:15Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testPreRequisites -->
-        <test-method status="FAIL" signature="Login_Valid(com.web.tests.myspace.login.LoginDP)[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf]" name="Login_Valid" duration-ms="23721" started-at="2017-01-03T13:42:15Z" data-provider="LoginDP" finished-at="2017-01-03T13:42:38Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[com.web.tests.myspace.login.LoginDP@695a69a1]]>
-              </value>
-            </param>
-          </params>
-          <exception class="java.lang.AssertionError">
-            <message>
-              <![CDATA[Home page title not matched expected [true] but found [false]]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[java.lang.AssertionError: Home page title not matched expected [true] but found [false]
-	at org.testng.Assert.fail(Assert.java:94)
-	at org.testng.Assert.failNotEquals(Assert.java:513)
-	at org.testng.Assert.assertTrue(Assert.java:42)
-	at com.web.tests.myspace.login.Login.validCredentials(Login.java:102)
-	at com.web.tests.WebTESTCASES.MySpaceTests.Login_Valid(MySpaceTests.java:113)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:86)
-	at org.testng.internal.Invoker.invokeMethod(Invoker.java:643)
-	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:820)
-	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:1128)
-	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:129)
-	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:112)
-	at org.testng.TestRunner.privateRun(TestRunner.java:782)
-	at org.testng.TestRunner.run(TestRunner.java:632)
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:366)
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:361)
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:319)
-	at org.testng.SuiteRunner.run(SuiteRunner.java:268)
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1244)
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1169)
-	at org.testng.TestNG.run(TestNG.java:1064)
-	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:132)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:236)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:81)
-]]>
-            </full-stacktrace>
-          </exception> <!-- java.lang.AssertionError -->
-          <reporter-output>
-            <line>
-              <![CDATA[Visit MySpace Login URL]]>
-            </line>
-            <line>
-              <![CDATA[........Validate Login with Good UserName and Good Password........]]>
-            </line>
-            <line>
-              <![CDATA[........Validate Home Page after Login........]]>
-            </line>
-          </reporter-output>
-        </test-method> <!-- Login_Valid -->
-        <test-method status="PASS" signature="destroy(org.testng.ITestResult)[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf]" name="destroy" is-config="true" duration-ms="704" started-at="2017-01-03T13:42:39Z" finished-at="2017-01-03T13:42:40Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[[TestResult name=Login_Valid status=FAILURE method=MySpaceTests.Login_Valid(com.web.tests.myspace.login.LoginDP)[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf] output=Visit MySpace Login URL]]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- destroy -->
-        <test-method status="PASS" signature="testPreRequisites()[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf]" name="testPreRequisites" is-config="true" duration-ms="1" started-at="2017-01-03T13:42:40Z" finished-at="2017-01-03T13:42:40Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testPreRequisites -->
-        <test-method status="PASS" signature="Profile_AddSkills(com.web.tests.myspace.myprofile.SkillsDP)[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf]" name="Profile_AddSkills" duration-ms="25949" started-at="2017-01-03T13:42:40Z" data-provider="SkillsDP" finished-at="2017-01-03T13:43:06Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[com.web.tests.myspace.myprofile.SkillsDP@30404dba]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-            <line>
-              <![CDATA[Visit MySpace Login URL]]>
-            </line>
-            <line>
-              <![CDATA[........Validate Login with Good UserName and Good Password........]]>
-            </line>
-            <line>
-              <![CDATA[........Validate Home Page after Login........]]>
-            </line>
-          </reporter-output>
-        </test-method> <!-- Profile_AddSkills -->
-        <test-method status="PASS" signature="destroy(org.testng.ITestResult)[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf]" name="destroy" is-config="true" duration-ms="2332" started-at="2017-01-03T13:43:06Z" finished-at="2017-01-03T13:43:09Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[[TestResult name=Profile_AddSkills status=SUCCESS method=MySpaceTests.Profile_AddSkills(com.web.tests.myspace.myprofile.SkillsDP)[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf] output=Visit MySpace Login URL]]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- destroy -->
-        <test-method status="PASS" signature="tearDown()[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@7a8c8dcf]" name="tearDown" is-config="true" duration-ms="0" started-at="2017-01-03T13:43:09Z" finished-at="2017-01-03T13:43:09Z">
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:com.web.tests.WebTESTCASES.MySpaceTests@3bd82cf5]" name="tearDown" is-config="true" duration-ms="0" started-at="2017-01-16T15:10:40Z" finished-at="2017-01-16T15:10:40Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
       </class> <!-- com.web.tests.WebTESTCASES.MySpaceTests -->
     </test> <!-- Web Automation Tests -->
-  </suite> <!-- ICT Automation Suite -->
+  </suite> <!-- Automation Suite -->
 </testng-results>

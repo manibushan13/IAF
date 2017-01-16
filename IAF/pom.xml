@@ -257,7 +257,7 @@
 				<version>2.7.1</version>
 				<configuration>
 					<suiteXmlFiles>
-						<suiteXmlFile>${project.basedir}/src/test/resources/TestSuites/ICTAutomationSuite.xml</suiteXmlFile>
+						<suiteXmlFile>${project.basedir}/src/test/resources/TestSuites/AutomationSuite.xml</suiteXmlFile>
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>

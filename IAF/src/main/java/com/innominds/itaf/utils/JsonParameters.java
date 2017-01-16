@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import com.innominds.itaf.frameworkengine.CommonUtils;
 import com.innominds.itaf.frameworkengine.Constants;
 
 /**
@@ -16,11 +17,11 @@ import com.innominds.itaf.frameworkengine.Constants;
  */
 public class JsonParameters {
 
-	Properties props = new Properties();
+	
+	PropertyFileUtils props;;
 
 	public JsonParameters() {
-		this.props = openPropertyFile((new File(Constants.ENVIRONMENT_PROPERTIES_PATH
-				+ Constants.JIRA_FILE_NAME)));
+		props =  new PropertyFileUtils(CommonUtils.getFilePath(Constants.ENVIRONMENT_PROPERTIES_PATH, Constants.JIRA_PROPERTIES_FILE));
 		setAssignee();
 		setIssueType();
 		setPassWord();
@@ -43,7 +44,7 @@ public class JsonParameters {
 	}
 
 	public void setProjectID() {
-		this.projectID = props.getProperty("projectId");
+		this.projectID = props.getDataFromPropertyFile("projectId");
 	}
 
 	public String getIssueType() {
@@ -51,7 +52,7 @@ public class JsonParameters {
 	}
 
 	public void setIssueType() {
-		this.issueType = props.getProperty("issueType");
+		this.issueType = props.getDataFromPropertyFile("issueType");
 	}
 
 	public String getReporter() {
@@ -59,7 +60,7 @@ public class JsonParameters {
 	}
 
 	public void setReporter() {
-		this.reporter = props.getProperty("reporter");
+		this.reporter = props.getDataFromPropertyFile("reporter");
 	}
 
 	public String getAssignee() {
@@ -67,7 +68,7 @@ public class JsonParameters {
 	}
 
 	public void setAssignee() {
-		this.assignee = props.getProperty("assignee");
+		this.assignee = props.getDataFromPropertyFile("assignee");
 	}
 
 	public String getURL() {
@@ -75,7 +76,7 @@ public class JsonParameters {
 	}
 
 	public void setURL() {
-		this.URL = props.getProperty("URL");
+		this.URL = props.getDataFromPropertyFile("URL");
 	}
 
 	public String getUserName() {
@@ -83,7 +84,7 @@ public class JsonParameters {
 	}
 
 	public void setUserName() {
-		this.userName = props.getProperty("username");
+		this.userName = props.getDataFromPropertyFile("username");
 	}
 
 	public String getPassWord() {
@@ -91,7 +92,7 @@ public class JsonParameters {
 	}
 
 	public void setPassWord() {
-		this.passWord = props.getProperty("password");
+		this.passWord = props.getDataFromPropertyFile("password");
 	}
 
 	/**

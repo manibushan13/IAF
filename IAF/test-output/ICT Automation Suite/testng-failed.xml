@@ -16,24 +16,4 @@
       <class name="com.web.tests.WebTESTCASES.MySpaceTests"/>
     </classes>
   </test> <!-- Web Automation Tests -->
-  <test name="Web Automation Tests(failed)">
-    <groups>
-      <run>
-        <include name="Sanity"/>
-        <include name="Regression"/>
-      </run>
-    </groups>
-    <classes>
-      <class name="com.web.tests.WebTESTCASES.MySpaceTests">
-        <methods>
-          <include name="Login_Valid" invocation-numbers="0"/>
-          <include name="init"/>
-          <include name="testPreRequisites"/>
-          <include name="destroy"/>
-          <include name="tearDown"/>
-          <include name="Login_Invalid" invocation-numbers="0"/>
-        </methods>
-      </class> <!-- com.web.tests.WebTESTCASES.MySpaceTests -->
-    </classes>
-  </test> <!-- Web Automation Tests(failed) -->
 </suite> <!-- Failed suite [ICT Automation Suite] -->

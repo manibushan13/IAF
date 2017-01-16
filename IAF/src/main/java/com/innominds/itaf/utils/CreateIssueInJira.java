@@ -59,9 +59,9 @@ public class CreateIssueInJira {
 		JSONObject obj = new JSONObject();
 		obj.put("fields", objFields);
 
-		System.out.println(obj);
+//		System.out.println(obj);
 
-		createIssueInJira(obj.toString());
+//		createIssueInJira(obj.toString());
 
 	}
 

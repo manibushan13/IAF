@@ -27,10 +27,10 @@ public class Login extends PageActionUtils
 		try
 		{
 		
-			Reporter.log("Visit MySpace Login URL", true);
+			System.out.println("\n");
+			Reporter.log("..............Visit MySpace Login URL..............", true);
 		
 			DriverManager.initDriverWithURL(DriverManager.getCurrentBrowserType(), dp._configData().get("web.app.url"));
-			
 			
 			Reporter.log("........Validate Login Header........", true);
 			element = getWebElement(dp.or, "LoginHeader");
@@ -60,22 +60,23 @@ public class Login extends PageActionUtils
 			jsClick(getWebElement(dp.or, "LoginButton"));
 			Assert.assertTrue(getTextFromJSAlert(true).contains(dp.td.get("INVALID_LOGIN_ERRMSG")), "Validation failed");
 			
-			Reporter.log("........Validate Login with Good UserName and Bad Password........", true);
-			enterText(getWebElement(dp.or, "Password"), dp.td.get("BAD_PASSWORD"));
-			enterText(getWebElement(dp.or, "Username"), dp.td.get("GOOD_USERNAME"));
-			jsClick(getWebElement(dp.or, "LoginButton"));
-			Assert.assertTrue(getTextFromJSAlert(true).contains(dp.td.get("INVALID_LOGIN_ERRMSG")), "Validation failed");
-			
 			Reporter.log("........Validate Login with Bad UserName and Good Password........", true);
 			enterText(getWebElement(dp.or, "Password"), dp.td.get("GOOD_PASSWORD"));
 			enterText(getWebElement(dp.or, "Username"), dp.td.get("BAD_USERNAME"));
 			jsClick(getWebElement(dp.or, "LoginButton"));
 			Assert.assertTrue(getTextFromJSAlert(true).contains(dp.td.get("INVALID_LOGIN_ERRMSG")), "Validation failed");
+			
+			Reporter.log("........Validate Login with Good UserName and Good Password........", true);
+			enterText(getWebElement(dp.or, "Password"), dp.td.get("GOOD_PASSWORD"));
+			enterText(getWebElement(dp.or, "Username"), dp.td.get("GOOD_USERNAME"));
+			jsClick(getWebElement(dp.or, "LoginButton"));
+			Assert.assertTrue(false, "Failed due to Invalid Login credentials");
+
 	
 			
 		} catch (Exception e) {
 			
-			Assert.assertFalse(false, "Test case failed due to exception "+e.getMessage());
+			Assert.assertTrue(false, "Test case failed due to exception "+e.getMessage());
 		}
 		
 
@@ -106,7 +107,7 @@ public class Login extends PageActionUtils
 			
 		} catch (Exception e) {
 			
-			Assert.assertFalse(false, "Test case failed due to exception "+e.getMessage());
+			Assert.assertTrue(false, "Test case failed due to exception "+e.getMessage());
 		}
 		
 

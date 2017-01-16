@@ -13,7 +13,6 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -41,129 +40,139 @@ import io.appium.java_client.AppiumDriver;
 public class PageActionUtils extends DriverManager {
 
 	
+	private By by;
+	public WebElement element;
+	public List<WebElement> elements;
 	
-	
-
-
-/*	public PageActionUtils() throws FileNotFoundException, IOException {
-		super();
 		
+	private enum AttributeName
+	{
+		unKnown, name, id, xpath, css, classname, linktext, partiallinkText, tagname, empty
 	}
-*/
+
+
+
 	public WebDriverWait wait;
-	public static final int DEFAULT_TIME_OUT_IN_SECONDS = 60;
 	public static Logger logger = Logger.getLogger(PageActionUtils.class.getName());
 	AppiumDriver<WebElement> appiumDriver;
 	
+
+	/**
+	 * Gets getBy.
+	 * @param a
+	 * @return 
+	 * @return By
+	 */
+	protected By getBy(Map<String, Map<String, String>> map2,	String keyWord)
+	{
+		Map<String, String> a = map2.get(keyWord);
+		try 
+		{
+			wait = new WebDriverWait(driver, Constants.EXPLICIT_TIMEOUT);
+			
+			Map.Entry<String,String> entry=a.entrySet().iterator().next();
+			String propType = entry.getKey().toLowerCase().trim();
+			String propValue = entry.getValue().trim();
+			
+			AttributeName attributeName = AttributeName.unKnown;
+			attributeName = AttributeName.valueOf(propType.trim());
+			
+	
+			if(propType != null && propValue != null)
+			{
+				switch(attributeName)
+				{
+					case id:
+					{
+						by = By.id(propValue);
+						wait.until(ExpectedConditions.presenceOfElementLocated(By.id(propValue)));
+	
+						break;
+					}
+					case name:
+					{
+						wait.until(ExpectedConditions.presenceOfElementLocated(By.name(propValue)));
+						by = By.name(propValue);
+		
+						break;
+					}
+					case xpath:
+					{
+						by = By.xpath(propValue);
+						break;
+					}
+					case classname:
+					{
+						by = By.className(propValue);
+						break;
+					}
+					case css:
+					{
+						by = By.cssSelector(propValue);
+						break;
+					}
+					case linktext:
+					{
+						by = By.cssSelector(propValue);
+						break;
+					}
+					case partiallinkText:
+					{
+						by = By.cssSelector(propValue);
+						break;
+					}
+					case tagname:
+					{
+						by = By.tagName(propValue);
+						break;
+					}
+				default:
+					System.out.println("No locator type found....");
+					break;
+			
+				}
+			} else {
+				logger.info("Property type is empty");
+			}
+		} catch (Exception e) {
+			logger.error(e);
+			logger.error("Property type is empty or some other error");
+		}
+	return by;
+	}
 	
 
-
 	/**
-	 * Gets the web element by.
+	 * Gets the web element.
 	 * @param a
-	 * @return the web element by
+	 * @return 
+	 * @return the web element
 	 */
-	public By getWebElementBy(Map<String, String> a) {
-		By locator = null;
-		try {
-			if (!a.get("PropertyType").isEmpty()) {
-				if (a.get("PropertyType").toLowerCase().equals("id")) {
-					locator = By.id(a.get("PropertyValue"));
-				} else if (a.get("PropertyType").toLowerCase().equals("name")) {
-					locator = By.name(a.get("PropertyValue"));
-				} else if (a.get("PropertyType").toLowerCase().equals("xpath")) {
-					locator = By.xpath(a.get("PropertyValue"));
-				} else if (a.get("PropertyType").toLowerCase()
-						.equals("linktext")) {
-					locator = By.linkText(a.get("PropertyValue"));
-				} else if (a.get("PropertyType").toLowerCase().equals("css")) {
-					locator = By.cssSelector(a.get("PropertyValue"));
-				}
-
-			} else {
-				logger.info("Property type is empty");
-			}
-
+	
+	public WebElement getWebElement(Map<String, Map<String, String>> map2,	String keyWord) 
+	{
+		try
+		{
+			by = getBy(map2, keyWord);
+			
+					if(by != null)
+					{
+						
+						if(wait.until(ExpectedConditions.presenceOfElementLocated(by)) != null)
+								element = driver.findElement(by);
+					}else
+					{
+						System.out.println("Properties not found for element locator");
+					}
+					
+							
 		} catch (Exception e) {
 			logger.error(e);
 			logger.error("Property type is empty or some other error");
 		}
-		return locator;
-
+		return element;
 	}
 
-	/**
-	 * Gets the web element.
-	 * 
-	 * @param map2
-	 * @param keyWord
-	 * @return the web element
-	 */
-	public By getElementLocator(Map<String, Map<String, String>> map2,
-			String keyWord) {
-		Map<String, String> map3 = map2.get(keyWord);
-		By locator = getWebElementBy(map3);
-		return locator;
-	}
-
-	/**
-	 * Gets the web element.
-	 * @param a
-	 * @return the web element
-	 */
-	public WebElement getWebElement(Map<String, String> a) {
-		WebElement we = null;
-		try {
-			WebDriverWait wait = new WebDriverWait(driver, DEFAULT_TIME_OUT_IN_SECONDS);
-			if (!a.get("PropertyType").isEmpty()) {
-				if (a.get("PropertyType").toLowerCase().equals("id")) {
-					wait.until(ExpectedConditions.presenceOfElementLocated(By
-							.id(a.get("PropertyValue"))));
-					we = driver.findElement(By.id(a.get("PropertyValue")));
-				} else if (a.get("PropertyType").toLowerCase().equals("name")) {
-					wait.until(ExpectedConditions.presenceOfElementLocated(By
-							.name(a.get("PropertyValue"))));
-					we = driver.findElement(By.name(a.get("PropertyValue")));
-				} else if (a.get("PropertyType").toLowerCase().equals("xpath")) {
-					wait.until(ExpectedConditions.presenceOfElementLocated(By
-							.xpath(a.get("PropertyValue"))));
-					we = driver.findElement(By.xpath(a.get("PropertyValue")));
-				} else if (a.get("PropertyType").toLowerCase()
-						.equals("linktext")) {
-					wait.until(ExpectedConditions.presenceOfElementLocated(By
-							.linkText(a.get("PropertyValue"))));
-					we = driver
-							.findElement(By.linkText(a.get("PropertyValue")));
-				} else if (a.get("PropertyType").toLowerCase().equals("css")) {
-					we = driver.findElement(By.cssSelector(a
-							.get("PropertyValue")));
-				} else if (a.get("PropertyType").toLowerCase().equals("class")) {
-					we = driver
-							.findElement(By.className(a.get("PropertyValue")));
-				}
-			} else {
-				logger.info("Property type is empty");
-			}
-		} catch (Exception e) {
-			logger.error(e);
-			logger.error("Property type is empty or some other error");
-		}
-		return we;
-	}
-
-	/**
-	 * Gets the web element.
-	 * 
-	 * @param map2
-	 * @param keyWord
-	 * @return the web element
-	 */
-	public WebElement getWebElement(Map<String, Map<String, String>> map2,
-			String keyWord) {
-		Map<String, String> map3 = map2.get(keyWord);
-		WebElement we = getWebElement(map3);
-		return we;
-	}
 	
 	/**
 	 * Gets the web elements.
@@ -174,49 +183,31 @@ public class PageActionUtils extends DriverManager {
 	 *            the key word
 	 * @return the web elements
 	 */
-	public List<WebElement> getWebElements(Map<String, Map<String, String>> map2, String keyWord) {
-		Map<String, String> map3 = map2.get(keyWord);
-		List<WebElement> list = getWebElements(map3);
-		return list;
-	}
-
-	/**
-	 * Gets the web elements.
-	 * @param a
-	 * @return the web elements
-	 */
-	public List<WebElement> getWebElements(Map<String, String> a) {
-		List<WebElement> list = null;
-		try {
-			if (!a.get("PropertyType").isEmpty()) {
-				if (a.get("PropertyType").toLowerCase().equals("id")) {
-					Thread.sleep(500);
-					list = driver.findElements(By.id(a.get("PropertyValue")));
-				} else if (a.get("PropertyType").toLowerCase().equals("name")) {
-					Thread.sleep(500);
-					list = driver.findElements(By.name(a.get("PropertyValue")));
-				} else if (a.get("PropertyType").toLowerCase().equals("xpath")) {
-					Thread.sleep(500);
-					list = driver.findElements(By.xpath(a.get("PropertyValue")));
-				} else if (a.get("PropertyType").toLowerCase().equals("linktext")) {
-					Thread.sleep(500);
-					list = driver.findElements(By.linkText(a.get("PropertyValue")));
-				} else if (a.get("PropertyType").toLowerCase().equals("css")) {
-					Thread.sleep(500);
-					list = driver.findElements(By.cssSelector(a.get("PropertyValue")));
-				}else if (a.get("PropertyType").toLowerCase().equals("class")) {
-					Thread.sleep(500);
-					list = driver.findElements(By.className(a.get("PropertyValue")));
-				}
-			} else {
-				logger.info("Property type is empty");
-			}
+	
+	public List<WebElement> getWebElements(Map<String, Map<String, String>> map2,	String keyWord) 
+	{
+		try
+		{
+			by = getBy(map2, keyWord);
+			
+					if(by != null)
+					{
+						
+						if(wait.until(ExpectedConditions.presenceOfElementLocated(by)) != null)
+								elements = driver.findElements(by);
+					}else
+					{
+						System.out.println("Properties not found for element locator");
+					}
+					
+							
 		} catch (Exception e) {
 			logger.error(e);
 			logger.error("Property type is empty or some other error");
 		}
-		return list;
+		return elements;
 	}
+
 	
 
 	/**
@@ -393,19 +384,15 @@ public class PageActionUtils extends DriverManager {
 	 */
 	public boolean assertPageTitle(String title) throws InterruptedException 
 	{
-		String pageTitle = null;
-		while (StringUtils.isBlank(pageTitle) || !StringUtils.equals(pageTitle, title)) 
-		{
-			try {
-				pageTitle = driver.getTitle();
-				logger.info("Page title is : " + pageTitle);
-			} catch (Exception ex) {
-				logger.error("Page title exception", ex);
-			}
-			if (StringUtils.isNotBlank(pageTitle) && StringUtils.equals(pageTitle, title))
-			driver.wait();
+		boolean titleVal = false;
+		try {
+				String pageTitle = driver.getTitle();
+				titleVal = pageTitle.trim().contains(title);
+		} catch (Exception ex) {
+			throw new RuntimeException("Failed: to get page title "+ex.getMessage());
+				
 		}
-		return true;
+		return titleVal;
 	}
 
 	/**
@@ -468,21 +455,11 @@ public class PageActionUtils extends DriverManager {
 		logger.info("Sucessfully Right clicked on the element");
 	}
 
-	/**
-	 * Select option of <select> by value
-	 * @param element
-	 * @param value
-	 */
-	public void selectByValue(WebElement element, String value)
-			throws NoSuchElementException, IllegalArgumentException {
-		Select select = new Select(element);
-		select.selectByValue(value);
-	}
-
-	/** Check checkbox identified by locator
-	 * @param element */
-	public void checkCheckbox(WebElement element) {
-		if (!element.isSelected()) {
+	
+	public void checkCheckbox(WebElement element) 
+	{
+		if (!element.isSelected()) 
+		{
 			element.click();
 		}
 	}
@@ -530,7 +507,7 @@ public class PageActionUtils extends DriverManager {
 	{
 		try
 		{
-			new WebDriverWait(driver, DEFAULT_TIME_OUT_IN_SECONDS).until(ExpectedConditions.alertIsPresent());
+			new WebDriverWait(driver, Constants.EXPLICIT_TIMEOUT).until(ExpectedConditions.alertIsPresent());
 			Alert al = driver.switchTo().alert();
 			if (isAccept) {
 				al.accept();
@@ -550,7 +527,7 @@ public class PageActionUtils extends DriverManager {
 		String alertText = "";
 		try
 		{
-			new WebDriverWait(driver, DEFAULT_TIME_OUT_IN_SECONDS).until(ExpectedConditions.alertIsPresent());
+			new WebDriverWait(driver, Constants.EXPLICIT_TIMEOUT).until(ExpectedConditions.alertIsPresent());
 			Alert al = driver.switchTo().alert();
 			alertText = al.getText().trim();
 			if (isAccept) {
@@ -808,7 +785,7 @@ public class PageActionUtils extends DriverManager {
 	
 	
 		
-	public boolean checkElementIsDisplayed(WebElement element, String UserNameID)
+	public boolean isDisplayed(WebElement element, String UserNameID)
 	{
 		try
 		{
@@ -821,7 +798,7 @@ public class PageActionUtils extends DriverManager {
 		}
 	}
 	
-	public boolean checkElementIsSelected(WebElement element)
+	public boolean isSelected(WebElement element)
 	{
 		try
 		{
@@ -856,35 +833,74 @@ public class PageActionUtils extends DriverManager {
 			throw new RuntimeException("Failed: to get inner text of the page"+e.getMessage());
 		}
 	}
-	
 
-	public Select selectElementByVisibleText(WebElement element,String Text)
+	public void selectByVisibleTextFromList(List<WebElement> elements,String text)
 	{
+		
 		try
 		{
-			Select oSelect = new Select(element);
-			oSelect.selectByVisibleText(Text);
-			return oSelect ;
+			for(WebElement element: elements)
+			{
+				if(element.getText().trim().equals(text.trim()))
+				{
+					jsClick(element);
+				}
+			}
+		}catch(Exception e)
+		{
+			throw new RuntimeException("Failed: to select the element by visible text From"+e.getMessage());
+		}
+	}
+
+
+	public void selectByVisibleText(WebElement element,String text)
+	{
+		Select oSelect = null;
+		try
+		{
+			oSelect = new Select(element);
+			wait.until(ExpectedConditions.visibilityOf(element));
+			Thread.sleep(Constants.THREAD_SLEEP);
+			oSelect.selectByVisibleText(text.trim());
 		}catch(Exception e)
 		{
 			throw new RuntimeException("Failed: to select the element by visible text"+e.getMessage());
 		}
 	}
 	
-	public Select selectElementByIndex(WebElement element, int indexid)
+	
+	public void selectByIndex(WebElement element, String indexid)
 	{
-	try{
-		Select oSelect = new Select(element);
-		oSelect.selectByIndex(indexid);
-		return oSelect ;
-	}
-	catch(Exception e)
-	{
-	throw new RuntimeException("Failed: to select the element by Index"+e.getMessage());
-	}
+		Select oSelect = null;
+		boolean breakIt = true;
+		try
+		{
+			while (breakIt) 
+			{	
+				try 
+				{
+					Thread.sleep(Constants.THREAD_SLEEP);
+					oSelect = new Select(element);
+					oSelect.selectByIndex(Math.round(Float.parseFloat(indexid)));
+					break;
+			    } 
+				catch (Exception e)	
+				{
+		            if (e.getMessage().contains("element is not attached")) 
+		            {
+		                breakIt = false;
+		            }
+				}
+		
+			}
+		}
+		catch(Exception e)
+		{
+		throw new RuntimeException("Failed: to select the element by Index"+e.getMessage());
+		}
 	}
 	
-	public Select selectElementByValue(WebElement element, String value)
+	public Select selectByValue(WebElement element, String value)
 	{
 		try{
 			Select oSelect = new Select(element);

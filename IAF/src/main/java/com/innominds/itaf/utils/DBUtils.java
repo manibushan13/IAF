@@ -21,7 +21,7 @@ public class DBUtils {
 	
 	public DBUtils() {
 		
-		dbConfig = new PropertyFileUtils(CommonUtils.getFilePath(Constants.ENVIRONMENT_PROPERTIES_PATH, Constants.DB_UTIL_FILE_NAME));
+		dbConfig = new PropertyFileUtils(CommonUtils.getFilePath(Constants.ENVIRONMENT_PROPERTIES_PATH, Constants.DB_PROPERTIES_FILE));
 
 	}
 	

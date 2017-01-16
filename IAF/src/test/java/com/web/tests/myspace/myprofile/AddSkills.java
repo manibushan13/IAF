@@ -40,7 +40,7 @@ public class AddSkills extends PageActionUtils{
 			
 			Reporter.log("........Click on Skills Tab........", true);
 			click(getWebElement(dp.or, "Skills"));
-			
+		
 			Reporter.log("........Enter Core skills summary........", true);
 			enterText(getWebElement(dp.or, "CoreSkillsInput"), dp.td.get("CORESKILLS_INPUT"));
 			
@@ -49,14 +49,14 @@ public class AddSkills extends PageActionUtils{
 			Assert.assertTrue(getTextFromJSAlert(true).contains(dp.td.get("CATEGORY_ERROR")), "Validation failed");
 			
 			Reporter.log("........Select Category........", true);
-			selectByValue(getWebElement(dp.or, "CategoryDrpDwn"), dp.td.get("CATEGORY_SELECT"));
+			selectByIndex(getWebElement(dp.or, "CategoryDrpDwn"), dp.td.get("CATEGORY_SELECT"));
 			
 			Reporter.log("........Click on Add Skill Button and validate message........", true);
 			click(getWebElement(dp.or, "AddSkillBtn"));
 			Assert.assertTrue(getTextFromJSAlert(true).contains(dp.td.get("SKILLSNAME_ERROR")), "Validation failed");
 
 			Reporter.log("........Select Skills Name........", true);
-			selectByValue(getWebElement(dp.or, "SkillNameDrpDwn"), dp.td.get("SKILLSNAME_SELECT"));
+			selectByIndex(getWebElement(dp.or, "SkillNameDrpDwn"), dp.td.get("SKILLSNAME_SELECT"));
 			
 			Reporter.log("........Click on Add Skill Button and validate message........", true);
 			click(getWebElement(dp.or, "AddSkillBtn"));
@@ -70,44 +70,21 @@ public class AddSkills extends PageActionUtils{
 			Assert.assertTrue(getTextFromJSAlert(true).contains(dp.td.get("PROFICIENCY_ERROR")), "Validation failed");
 			
 			Reporter.log("........Select Proficiency Value........", true);
-			selectByValue(getWebElement(dp.or, "ProfiencyDrpDwn"), dp.td.get("PROFICIENCY_SELECT"));
+			selectByIndex(getWebElement(dp.or, "ProfiencyDrpDwn"), dp.td.get("PROFICIENCY_SELECT"));
 			
 			Reporter.log("........Click on Add Skill Button and validate message........", true);
 			click(getWebElement(dp.or, "AddSkillBtn"));
 	
 			
-			
-		
-			Reporter.log("........Select Category........", true);
-			selectByValue(getWebElement(dp.or, "CategoryDrpDwn"), dp.td.get("CATEGORY_SELECT"));
-			
-			Reporter.log("........Select Skills Name........", true);
-			selectByValue(getWebElement(dp.or, "SkillNameDrpDwn"), dp.td.get("SKILLSNAME_SELECT"));
-			
-			Reporter.log("........Enter Specific Skills ........", true);
-			enterText(getWebElement(dp.or, "SpecificSkillsInput"), dp.td.get("SPECIFICSKILLS_INPUT"));
-			
-			Reporter.log("........Select Proficiency Value........", true);
-			selectByValue(getWebElement(dp.or, "ProfiencyDrpDwn"), dp.td.get("PROFICIENCY_SELECT"));
-			
-			Reporter.log("........Click on Add Skill Button and validate message........", true);
-			click(getWebElement(dp.or, "AddSkillBtn"));
-		
-			Reporter.log("........Click on Delete Add Skill Button and validate message........", true);
-			click(getWebElement(dp.or, "DelLastSkillBtn"));
-			Assert.assertTrue(getTextFromJSAlert(true).contains(dp.td.get("SKILL_DELETE")), "Validation failed");
-			
-			
-			Reporter.log("........Click on Add Skill Button and validate message........", true);
+			Reporter.log("........Click on Save Button and validate message........", true);
 			click(getWebElement(dp.or, "SaveBtn"));
 			
 			Reporter.log("........Validate message after save button........", true);
-			click(getWebElement(dp.or, "DelLastSkillBtn"));
 			Assert.assertTrue(getWebElement(dp.or, "DataSavedMsg").getText().trim().contains(dp.td.get("SAVED_MSG")), "Validation failed");
 
 		} catch (Exception e) {
 			
-			Assert.assertFalse(false, "Test case failed due to exception "+e.getMessage());
+			Assert.assertTrue(false, "Test case failed due to exception "+e.getMessage());
 		}
 		
 

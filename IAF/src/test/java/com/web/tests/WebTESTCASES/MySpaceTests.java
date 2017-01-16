@@ -14,7 +14,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.innominds.itaf.driverinit.DriverManager;
-import com.innominds.itaf.frameworkengine.ConfigTestFixtures;
+import com.innominds.itaf.frameworkengine.Constants;
 import com.innominds.itaf.frameworkengine.PageActionUtils;
 import com.innominds.itaf.utils.PropertyFileUtils;
 import com.web.tests.myspace.login.Login;
@@ -33,7 +33,7 @@ public class MySpaceTests {
 	    
 	private DriverManager driverManager;
 	WebDriver driver;
-	ConfigTestFixtures config;
+	
 
 	
 	
@@ -48,9 +48,9 @@ public class MySpaceTests {
 	public void testPreRequisites() throws Exception {
 		driverManager = new DriverManager();
 		driver = DriverManager.getDriver();
-		DriverManager.setupSeleniumEnvironment(PropertyFileUtils.getPropValuesFromConfig("browser"));
-		DriverManager.printEnvInfo();
-		config = new ConfigTestFixtures();
+		DriverManager.setupSeleniumEnvironment(PropertyFileUtils.getPropValuesFromConfig(Constants.WEB_PROPERTIES_FILE, "browser"));
+		
+		
 		
 
 		
@@ -115,21 +115,21 @@ public class MySpaceTests {
     }
 	
 	
-	@Test(dataProvider = "LoginDP", enabled = true, groups = { "Regression" })
+	@Test(dataProvider = "LoginDP", enabled = false, groups = { "Regression" })
 	public void Login_Valid(LoginDP dp)
 	{
 		login.validCredentials(dp, driver);
         
     }
 
-	@Test(dataProvider = "SkillsDP", enabled = true, groups = { "Regression" })
+	@Test(dataProvider = "SkillsDP", enabled = false, groups = { "Regression" })
 	public void Profile_AddSkills(SkillsDP dp)
 	{
 		skills.addSkill(dp, driver);
         
     }
 	
-	@Test(dataProvider = "ApplyWFHDP", enabled = true, groups = { "Regression" })
+	@Test(dataProvider = "ApplyWFHDP", enabled = false, groups = { "Regression" })
 	public void Apply_WorkFrom_Home(ApplyWFHDP dp) throws FileNotFoundException, IOException
 	{
 		wfh.applyWorkFromHome(dp, driver);

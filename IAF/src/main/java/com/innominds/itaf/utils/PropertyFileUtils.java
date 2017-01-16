@@ -112,17 +112,14 @@ public class PropertyFileUtils {
 	
 
 	@SuppressWarnings("unused")
-	public static String getPropValuesFromConfig(String propertyKey) throws FileNotFoundException
+	public static String getPropValuesFromConfig(String propertyPath, String propertyKey) throws FileNotFoundException
 	{
 		Map<String, String> propMap = new HashMap<String, String>();
 		String propFileName = null;
 	
-		propFileName = "email.properties";
-		
-		String configFilePath = Constants.ENVIRONMENT_PROPERTIES_PATH + propFileName;
-		FileInputStream fileInput = new FileInputStream(configFilePath);
+		FileInputStream fileInput = new FileInputStream(propertyPath);
 
-		if (configFilePath != null) 
+		if (propertyPath != null) 
 		{
 			try {
 					properties.load(fileInput);
@@ -136,72 +133,46 @@ public class PropertyFileUtils {
 
 	
 	@SuppressWarnings("unused")
-	public static String getPropValuesFromConfig(String propertyKey, String environment) throws FileNotFoundException
+	public static String getPropValuesFromEnvConfig(String propertyKey, String environment) throws FileNotFoundException
 	{
 		Map<String, String> propMap = new HashMap<String, String>();
 		String propFileName = null;
-		if (environment.trim().equalsIgnoreCase("Testing"))
-			propFileName = "web.properties";
-		if (environment.trim().equalsIgnoreCase("DB") ||environment.trim().equalsIgnoreCase("database") || environment.trim().equalsIgnoreCase("Database"))
-			propFileName = "DBUtils.properties";
 		
-		String configFilePath = Constants.ENVIRONMENT_PROPERTIES_PATH + propFileName;
-		FileInputStream fileInput = new FileInputStream(configFilePath);
-
-		if (configFilePath != null) 
+		
+		if (environment.trim().equalsIgnoreCase("Testing") || environment.trim().equalsIgnoreCase("QA"))
 		{
-			try {
-					properties.load(fileInput);
-				} catch (Exception e) 
-				{
-					throw new FileNotFoundException("property file '"+ propFileName + "' not found in the classpath");
-				}
-			}
-		return (String) properties.get(propertyKey);
-	}
-	
-	/**
-	 * Gets the prop values from config.
-	 *
-	 * @param propertyKey
-	 *            the property key
-	 * @param environment
-	 *            the environment
-	 * @return the prop values from config
-	 * @throws FileNotFoundException
-	 *             the file not found exception
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 */
-	@SuppressWarnings("unused")
-	public static String getPropValuesFromConfig(String propertyKey, String webEnv, String mobileEnv)
-			throws FileNotFoundException, IOException {
-		String propFileName = null;
-		if (mobileEnv.trim().equalsIgnoreCase("android"))
-			propFileName = "android.properties";
-		if (mobileEnv.trim().equalsIgnoreCase("atid"))
-			propFileName = "atidreader.properties";
-		if (mobileEnv.trim().equalsIgnoreCase("ios"))
-			propFileName = "ios.properties";
-
-		String configFilePath = Constants.ENVIRONMENT_PROPERTIES_PATH + propFileName;
-		FileInputStream fileInput = new FileInputStream(configFilePath);
-
-		if (configFilePath != null) {
-			try {
-				properties.load(fileInput);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else {
-			try {
-				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+			propFileName = Constants.WEB_PROPERTIES_FILE;
 		}
+		
+		if (environment.trim().equalsIgnoreCase("DB") ||environment.trim().equalsIgnoreCase("database") || environment.trim().equalsIgnoreCase("Database"))
+		{
+			propFileName = Constants.DB_PROPERTIES_FILE;
+		}
+		
+		if(environment.trim().equalsIgnoreCase("android"))
+		{
+			propFileName = Constants.ANDROID_PROPERTIES_FILE;
+		}
+		
+		if (environment.trim().equalsIgnoreCase("ios"))
+		{
+			propFileName = Constants.IOS_PROPERTIES_FILE;
+		}		
+		String configFilePath = Constants.ENVIRONMENT_PROPERTIES_PATH + propFileName;
+		FileInputStream fileInput = new FileInputStream(configFilePath);
+
+		if (configFilePath != null) 
+		{
+			try {
+					properties.load(fileInput);
+				} catch (Exception e) 
+				{
+					throw new FileNotFoundException("property file '"+ propFileName + "' not found in the classpath");
+				}
+			}
 		return (String) properties.get(propertyKey);
 	}
+	
 
 
 

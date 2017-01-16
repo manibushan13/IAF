@@ -21,6 +21,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import com.innominds.itaf.utils.PropertyFileUtils;
+
 /**
  * Orchestrates Send Email class.
  * 
@@ -28,13 +30,16 @@ import javax.mail.internet.MimeMultipart;
  * 
  */
 public class SendEmail {
+	
 	private static final Logger LOGGER = Logger.getAnonymousLogger();
+	
 	private static String SMTP_SERVER;
 	private static String SMTP_SERVER_PORT;
 	private static String USER_NAME;
 	private static String PASSWORD;
 	private String from;
-	private String to;
+	protected String[] to;
+	protected String[] cc;
 	private String subject;
 
 	/** The message content. */
@@ -47,14 +52,31 @@ public class SendEmail {
 	 * @throws InterruptedException
 	 *             the interrupted exception
 	 */
-	public void sendEmailReport() throws InterruptedException {
-		SMTP_SERVER = ConfigTestFixtures.getGmailSendEmailHost();
-		SMTP_SERVER_PORT = ConfigTestFixtures.getSendEmailPort();
-		USER_NAME = ConfigTestFixtures.getSendEmailFrom();
-		PASSWORD = ConfigTestFixtures.getSendEmailPwd();
-		from = ConfigTestFixtures.getSendEmailFrom();
-		to = ConfigTestFixtures.getSendEmailTo();
-		subject = "Automation Summary Report";
+	public void sendEmailReport(String mailType) throws InterruptedException 
+	{
+		try
+		{
+			if(mailType.equalsIgnoreCase("gmail") || mailType.equalsIgnoreCase("Gmail"))
+			{
+				SMTP_SERVER = PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "gmail.email.host");
+				SMTP_SERVER_PORT = PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "sendmail.port");
+			}else if(mailType.equalsIgnoreCase("outlook") || mailType.equalsIgnoreCase("Outlook"))
+			{
+				SMTP_SERVER = PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "outlook.email.host");
+				SMTP_SERVER_PORT = PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "sendmail.port");
+				
+			}
+			
+			USER_NAME = PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "sendEmailFrom");
+			PASSWORD = PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "sendEmailPwd");
+			from = PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "sendEmailFrom");
+			to = PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "sendEmailTO").split(",");
+			cc = PropertyFileUtils.getPropValuesFromConfig(Constants.EMAIL_PROPERTIES_FILE, "sendEmailCC").split(",");
+			subject = "Automation Summary Report";
+		}catch(Exception e)
+		{
+			throw new RuntimeException("Failed to get data from Email Properties file "+e.getMessage());
+		}
 
 		final Session session = Session.getInstance(this.getEmailProperties(),
 				new Authenticator() {
@@ -68,14 +90,23 @@ public class SendEmail {
 
 		try {
 			final Message message = new MimeMessage(session);
-			message.setRecipient(Message.RecipientType.TO, new InternetAddress(
-					to));
+			
+			for(String toMail : to)
+			{
+				message.setRecipient(Message.RecipientType.TO, new InternetAddress(toMail));
+			}
+			
+			for(String ccMail : cc)
+			{
+				message.setRecipient(Message.RecipientType.CC, new InternetAddress(ccMail));
+			}
+			
 			message.setFrom(new InternetAddress(from));
 			message.setSubject(subject);
 			message.setSentDate(new Date());
 			BodyPart messageBodyPart = new MimeBodyPart();
 			messageBodyPart
-					.setText("Hi,\n\nAttached is the Automation Test Suite Report of Cirrus application.\n\nRegards,\nAutomation Team");
+					.setText("Hi,\n\nAttached is the Automation Test Suite Report of application.\n\nRegards,\nAutomation Team");
 			Multipart multipart = new MimeMultipart();
 			multipart.addBodyPart(messageBodyPart);
 			messageBodyPart = new MimeBodyPart();
@@ -84,7 +115,7 @@ public class SendEmail {
 					+ Constants.REPORTS_FILE_PATH);
 			DataSource source = new FileDataSource(Constants.REPORTS_FILE_PATH);
 			messageBodyPart.setDataHandler(new DataHandler(source));
-			messageBodyPart.setFileName("ICT_Web_Automation_Reports.html");
+			messageBodyPart.setFileName("Web_Automation_Reports.html");
 			multipart.addBodyPart(messageBodyPart);
 			message.setContent(multipart);
 			System.out.println("Sending email report...........");

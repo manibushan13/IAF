@@ -82,22 +82,13 @@ public class RepositoryReader {
 				Map<String, String> map2 = new HashMap<String, String>();
 				
 				if (cell != null) {
-					if (proType != null) {
-						map2.put(sheet.getRow(0).getCell(1)
-								.getStringCellValue(), proType);
+					if (proType != null && ProValue != null) {
+						map2.put(proType, ProValue);
 					} else {
 						map2.put(sheet.getRow(0).getCell(1)
 								.getStringCellValue(), "");
 					}
-					if (ProValue != null) {
-
-						map2.put(sheet.getRow(0).getCell(2)
-								.getStringCellValue(), ProValue);
-					} else {
-						map2.put(sheet.getRow(0).getCell(2)
-								.getStringCellValue(), "");
-					}
-					map.put(cell, map2);
+						map.put(cell, map2);
 				}
 			} catch (Exception e) {
 				System.out.println(e);

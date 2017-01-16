@@ -14,6 +14,7 @@ public class Constants
 	/*===================== Project Resources folder path=======================*/
 	
 	public static final String PROJ_RESOURCE_PATH = System.getProperty("user.dir")+File.separator+"src"+File.separator+"test"+File.separator+"resources"+File.separator;
+	public static final String ENVIRONMENT_PROPERTIES_PATH=PROJ_RESOURCE_PATH+"Properties"+File.separator+"Environments"+File.separator;
 	
 	
 	/*===================== Implicit & Explicit timeout=======================*/
@@ -21,6 +22,7 @@ public class Constants
 	//Seconds
 	public static final int IMPLICIT_TIMEOUT = 30;
 	public static final int EXPLICIT_TIMEOUT = 60;
+	public static final int THREAD_SLEEP = 3000;
 	
 	/*=====================For Web==========================*/
 	//Test Suite File Path
@@ -31,12 +33,18 @@ public class Constants
 	public static final String REPORT_FOLDER_PATH = System.getProperty("user.dir")+File.separator+"Reports";
 	public static final String TESTDATA_FILE_PATH = PROJ_RESOURCE_PATH+"TestData"+File.separator;
 	
-	/*=====================Reports/Attachments File path==========================*/
+	public static final String WEB_PROPERTIES_FILE = ENVIRONMENT_PROPERTIES_PATH+"web.properties";
 	
+	/*=====================Reports/Extent Config/Attachments File path==========================*/
+	
+	//Reports download location for our purpose (desired capabilities)
 	public static final String REPORT_DOWNLOAD_LOCATION = "C:\\ReportDownloads";
 	
+	//Extent Config file path
+	public static final String EXTENT_CONFIG_PATH = PROJ_RESOURCE_PATH+"ExtentConfig"+File.separator+"extent-config.xml";
+	
 	//Reports file path
-	public static final String REPORTS_FILE_PATH = System.getProperty("user.dir")+File.separator+"Reports"+File.separator+"ICT_Web_Automation_Reports.html";
+	public static final String REPORTS_FILE_PATH = System.getProperty("user.dir")+File.separator+"Reports"+File.separator+"Web_Automation_Reports.html";
 	//Attachments file path
 	public static final String ATTACHMENTS_FILE_PATH = System.getProperty("user.dir")+File.separator+"src"+File.separator+"main"+File.separator+"resources"+File.separator+"Attachments"+File.separator;
 
@@ -60,9 +68,14 @@ public class Constants
 	public static final String APK_FILE="OnTrack-2.3.5.2.apk";
 	public static final String APK_PACKAGE = "com.hilti.mobile.ontrack";
 	
+	
+	
 	public static final String APKs_DRIVER_PATH=PROJ_RESOURCE_PATH+"Drivers"+File.separator+"APKs"+File.separator;
 	public static final String IPAs_DRIVER_PATH=PROJ_RESOURCE_PATH+"Drivers"+File.separator+"IPAs"+File.separator;
-	public static final String ENVIRONMENT_PROPERTIES_PATH=PROJ_RESOURCE_PATH+"Properties"+File.separator+"Environments"+File.separator;
+
+	
+	public static final String ANDROID_PROPERTIES_FILE= ENVIRONMENT_PROPERTIES_PATH+"android.properties";
+	public static final String IOS_PROPERTIES_FILE= ENVIRONMENT_PROPERTIES_PATH+"ios.properties";
 	
 	public static final String WIN_APPIUM_DIR = "C:/Program Files (x86)"; 
 	public static final String WIN_DRIVER_EXECUTABLE = WIN_APPIUM_DIR + File.separator + "Appium"+ File.separator + "node.exe" ;
@@ -85,15 +98,19 @@ public class Constants
 /*=====================Database Configuration file==========================*/
 	
 	
-	public static final String DB_UTIL_FILE_NAME = "DBUtil.properties";
+	public static final String DB_PROPERTIES_FILE = "DBUtil.properties";
 	
 	
 /*=====================Jira File==========================*/
 	
 	
-	public static final String JIRA_FILE_NAME = "JiraConfig.properties";
+	public static final String JIRA_PROPERTIES_FILE = "JiraConfig.properties";
 
 	
+/*=====================Email File==========================*/
+	
+	
+	public static final String EMAIL_PROPERTIES_FILE = ENVIRONMENT_PROPERTIES_PATH+"email.properties";
 	
 	
 	
